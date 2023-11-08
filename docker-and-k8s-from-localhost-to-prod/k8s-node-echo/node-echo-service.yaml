@@ -1,0 +1,30 @@
+# specifying which version of kubernetes API we are using
+apiVersion: v1
+# Telling kubernetes that we configuring a service. 
+kind: Service
+# assigning some metadata to the services
+metadata:
+  # we are assigning a name to the service here we are calling it
+  # node-echo-service
+  name: node-echo-service
+# From here below we are specifying the configuration of the service
+spec:
+  # There are different type of services.
+  # For demo purposes, we stick to NodePort
+  type: NodePort
+  selector:
+    # We are specifying the app that we are configuring this service for
+    # If you go back to the deployment.yaml file, you'd remember that we defined
+    # This app metadata over there. It has proved to be useful when defining other
+    # Objects for our deployment
+    app: node-echo
+  # Define port mapping
+  ports:
+    # The port that this service would listen on
+    - port: 80 
+      # The port on the pord that the service would forward request to.
+      # This is usually the port that your application binds to
+      targetPort: 5001
+      # The port on your physical machine that the service binds to
+      nodePort: 30001
+

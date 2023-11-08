@@ -1,0 +1,57 @@
+# The kubernetes api version; because kubernetes' api is constantly revised
+apiVersion: apps/v1
+# The kuberntes object that we are defining with this configuration. This case, it's a Deployment
+# A deployment is a data structure that stores the desired state of a pod
+kind: Deployment
+metadata:
+  # We are just giving a human readable name to this deployment here
+  name: node-echo-deployment 
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: node-echo
+  template:
+    metadata:
+      labels:
+        app: node-echo
+    # From here downward, we are describing how to run our web app to kubernetes 
+    spec:
+      # We are telling kubernetes to find the docker image "node-echo:latest" and
+      # run it as a container. The container's name should also be called node-echo
+      containers:
+        - name: node-echo
+          image: node-echo:latest
+          # Next, we  are telling kubernetes to look for node-echo:latest image on our machine first. if
+          # it isn't present on our local machine, then kubernetes would go look for it on the
+          # internete
+          imagePullPolicy: IfNotPresent 
+          # next 4 lines defines the limit of the resources that kubernetes should make available our app 
+          resources:
+            limits:
+              cpu: 1 
+              memory: 256Mi
+          # We are telling kubernetes the ports that our workload will be using
+          ports:
+            # We are giving the port 5001 a name. Similar to declaring a varible
+            - name: node-echo-port 
+              containerPort: 5001
+          livenessProbe:
+            httpGet:
+              path: /
+              port: node-echo-port 
+              # In the 4 lines above, told kubernetes to check localhost:5001/ in the pod node-echo
+              # the application is still running properly. If the endpoints returns any status code > 299
+              # kubernetes restarts the application
+          readinessProbe:
+            httpGet:
+              path: /
+              port: node-echo-port
+              # The 4 lines above defines the endpoint that kubernetes would check to determine that
+              # the pod is ready to receive trafic 
+          startupProbe: # configuration for endpoints
+            httpGet:
+              path: / 
+              port: node-echo-port
+              # the 4 lines above is uses by kubernetes to determine if our appliacation has started 
+           
