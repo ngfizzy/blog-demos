@@ -8,7 +8,7 @@ https://dev.to/ngfizzy/containers-the-what-why-and-how-391n
 ## How to start the server
 Assuming you're in the same directory as this Readme filee
 1. ```bash
-    docker build -f Dockerfile .  node-echo
+    docker build -f Dockerfile . -f  node-echo
    ```
 2. ```bash
     docker run -i -t -p 5001:5001 node-echo

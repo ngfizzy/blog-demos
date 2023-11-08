@@ -2,7 +2,7 @@
 A containerized echo server written in nodejs.
 
 ## Related Blog Post
-https://dev.to/ngfizzy/containers-the-what-why-and-how-391n
+https://dev.to/ngfizzy/docker-and-kubernetes-from-localhost-to-production-kubernetes-container-orchestrators-the-what-why-and-how-42gg
 ## Requirements
 1. Docker desktop
 2. Single node kubernetes either by enabling it through docker desktop or installing minikube
@@ -22,4 +22,4 @@ Or you could run ./start.sh script
 ```bash
     curl -d "hello kubernetes" localhost:5001
 ```
-    
+ 
